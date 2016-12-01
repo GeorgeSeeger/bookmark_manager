@@ -22,7 +22,7 @@ class Manager < Sinatra::Base
 
   get '/links' do
     @link = Link.all
-    @user = current_user
+    @user_email = current_user ? current_user.email : "nobody"
     erb :links
   end
 
@@ -49,8 +49,6 @@ class Manager < Sinatra::Base
 
   helpers do
     def current_user
-      # puts session[:user_id]
-      User.all.each do |a| puts a, a.email, a.password_hash end
       User.first(id: session[:user_id])
     end
   end
