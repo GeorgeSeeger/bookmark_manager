@@ -16,7 +16,6 @@ class User
     self.password = params[:password]
     self.email = params[:email]
     self.password_confirm = params[:password_confirm]
-    self.save if self.valid?
     @@user_count += 1
   end
 

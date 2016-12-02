@@ -10,14 +10,20 @@ class Bookmark_manager < Sinatra::Base
   register Sinatra::Flash
 
   get '/' do
-    flash.discard if current_user
+    if current_user
+      flash.discard
+      @default_email = current_user.email
+    end
     erb(:sign_up)
   end
 
-  post '/sign-up' do
+  post '/' do
     user = User.new(params)
-    session['id'] = user.id
-    redirect '/links' if user.valid?
+    if user.valid?
+      user.save
+      session['id'] = user.id
+      redirect '/links'
+    end
     flash[:error] = 'Password and confirmation do not match'
     redirect '/'
   end
